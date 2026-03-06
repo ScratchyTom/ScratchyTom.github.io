@@ -4,6 +4,31 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact — Donald Lemke</title>
+  <meta name="description" content="Contact Donald Lemke for partner inquiries, speaking, and services." />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+<header><div class="container nav-wrap"><div class="brand">Donald Lemke</div><nav><a href="/">Home</a><a href="/about/">About</a><a href="/books/">Books &amp; Projects</a><a href="/speaking/">Speaking</a><a href="/services/">Services</a><a href="/contact/" aria-current="page">Contact</a></nav></div></header>
+<main class="container">
+  <section class="page-hero"><span class="accent-label">Contact</span><h1>Partner inquiries, speaking, and services.</h1><p class="lead">The form is the best way to start. Short messages are great—specific ones are better.</p></section>
+  <section>
+    <article class="contact-wrap">
+      <form action="mailto:donaldblemke@gmail.com" method="post" enctype="text/plain">
+        <label>Name<input type="text" name="name" required /></label>
+        <label>Email<input type="email" name="email" required /></label>
+        <label>Inquiry type
+          <select name="inquiry_type" required>
+            <option>Partner/Agent</option><option>Speaking</option><option>Services</option><option>Other</option>
+          </select>
+        </label>
+        <label>Message<textarea name="message" required></textarea></label>
+        <button class="btn btn-primary" type="submit">Partner inquiries</button>
+      </form>
+      <p class="email-subtle">Prefer email? <a class="link" href="mailto:donaldblemke@gmail.com">donaldblemke@gmail.com</a></p>
+    </article>
+  </section>
+</main>
+<footer><div class="container">Donald Lemke • St. Paul, Minnesota</div></footer>
   <meta http-equiv="refresh" content="0; url=/#contact" />
   <link rel="canonical" href="/#contact" />
 </head>
