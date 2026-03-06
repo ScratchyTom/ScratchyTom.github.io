@@ -34,35 +34,10 @@ header {
   backdrop-filter: blur(9px);
   border-bottom: 1px solid rgba(28, 31, 38, 0.12);
 }
-
-.nav-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.9rem 0;
-}
-
-.brand { font-weight: 850; letter-spacing: 0.01em; color: #12444a; white-space: nowrap; }
-
-.site-nav { margin-left: auto; }
-.site-nav-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-/* Backward compatibility for existing pages with plain <nav> links */
-nav { font-size: 0.95rem; }
-nav > a { margin-right: 1rem; }
-nav > a:last-child { margin-right: 0; }
-
-.site-nav a::after,
-nav a::after,
-a.link::after {
+.nav-wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.9rem 0; }
+.brand { font-weight: 850; letter-spacing: 0.01em; color: #12444a; }
+nav { display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.95rem; }
+nav a::after, a.link::after {
   content: "";
   position: absolute;
   left: 0;
@@ -72,14 +47,7 @@ a.link::after {
   background: var(--teal);
   transition: right 180ms ease;
 }
-
-.site-nav a:hover::after,
-.site-nav a[aria-current="page"]::after,
-nav a:hover::after,
-nav a[aria-current="page"]::after,
-a.link:hover::after {
-  right: 0;
-}
+nav a:hover::after, nav a[aria-current="page"]::after, a.link:hover::after { right: 0; }
 
 h1, h2, h3 { line-height: 1.14; margin: 0 0 0.75rem; }
 h1 { font-size: clamp(2.2rem, 5.6vw, 3.45rem); letter-spacing: -0.02em; }
@@ -87,6 +55,7 @@ h2 { font-size: clamp(1.65rem, 3.7vw, 2.35rem); letter-spacing: -0.016em; }
 p { margin: 0 0 1rem; }
 
 .hero {
+  position: relative;
   display: grid;
   grid-template-columns: 1.05fr 1fr;
   gap: 1.6rem;
@@ -97,7 +66,6 @@ p { margin: 0 0 1rem; }
   border-radius: 18px;
   margin-top: 0.5rem;
 }
-
 .lead { font-size: 1.1rem; color: #2e3540; }
 
 .accent-label {
@@ -232,30 +200,6 @@ footer {
 }
 
 @media (max-width: 920px) {
-  .nav-wrap {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-
-  .site-nav,
-  nav {
-    width: 100%;
-  }
-
-  .site-nav-list {
-    width: 100%;
-    gap: 0.5rem 0.9rem;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-
-  nav > a {
-    display: inline-block;
-    margin-right: 0.9rem;
-    margin-bottom: 0.35rem;
-  }
-
   .hero,.columns-2,.rate-grid { grid-template-columns:1fr; }
   .hero { padding-top:2.2rem; }
   .hero-carousel { min-height:320px; }
