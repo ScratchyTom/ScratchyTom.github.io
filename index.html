@@ -1,9 +1,745 @@
-<html>
- 
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donald Lemke — Children’s Author, Editor & Speaker</title>
+  <meta name="description" content="Clever, human-first writing for kids—original stories, licensed worlds, and everything in between." />
+  <style>
+    :root {
+      --off-white: #f6f7f4;
+      --charcoal: #1c1f26;
+      --teal: #00b7be;
+      --teal-deep: #00939a;
+            --muted: #5f6470;
+      --card: #ffffff;
+      --border: #d8dce4;
+      --shadow: 0 12px 28px rgba(18, 27, 32, 0.08);
+      --radius: 16px;
+      --max: 1160px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color: var(--charcoal);
+      background-color: var(--off-white);
+      line-height: 1.55;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; position: relative; }
+
+    .container { width: min(100% - 2rem, var(--max)); margin-inline: auto; }
+
+    .accent-label {
+      display: inline-block;
+      background: rgba(0, 183, 190, 0.14);
+      color: #0b5a61;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(246, 247, 244, 0.94);
+      backdrop-filter: blur(9px);
+      border-bottom: 1px solid rgba(28, 31, 38, 0.12);
+    }
+
+    .nav-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.9rem 0;
+    }
+
+    .brand {
+      font-weight: 850;
+      letter-spacing: 0.01em;
+      color: #12444a;
+    }
+
+    nav { display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.95rem; }
+
+    nav a::after, a.link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 100%;
+      bottom: -3px;
+      height: 2px;
+      background: var(--teal);
+      transition: right 180ms ease;
+    }
+
+    nav a:hover::after, a.link:hover::after { right: 0; }
+
+    h1, h2, h3 { line-height: 1.14; margin: 0 0 0.75rem; }
+    h1 { font-size: clamp(2.2rem, 5.6vw, 3.45rem); letter-spacing: -0.02em; }
+    h2 { font-size: clamp(1.65rem, 3.7vw, 2.35rem); letter-spacing: -0.016em; }
+    p { margin: 0 0 1rem; }
+
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap: 1.6rem;
+      align-items: center;
+      padding: 3.7rem 0 2.4rem;
+      border-bottom: 3px solid rgba(0, 183, 190, 0.22);
+      background: #f6f7f4;
+      border-radius: 18px;
+      padding-inline: 1rem;
+    }
+
+    .lead { font-size: 1.1rem; color: #2e3540; }
+
+    .button-row { display: flex; flex-wrap: wrap; gap: 0.7rem; margin: 1.2rem 0 1rem; }
+
+    .btn {
+      display: inline-block;
+      padding: 0.65rem 1.05rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 680;
+      transition: transform 120ms ease, box-shadow 200ms ease;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 7px 16px rgba(0, 0, 0, 0.1); }
+    .btn:focus-visible {
+      outline: 3px solid rgba(0, 183, 190, 0.35);
+      outline-offset: 2px;
+    }
+
+    .btn-primary {
+      background: #00aeb6;
+      color: #052124;
+      border-color: rgba(0, 130, 136, 0.4);
+    }
+    .btn-dark { background: var(--charcoal); color: #fff; }
+    .btn-outline { background: #fff; border-color: #bfc6d2; }
+    .btn-outline:hover { border-color: var(--teal); color: #0a5f66; }
+
+    .proof { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 1rem; }
+    .proof span {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-left: 2px solid rgba(0, 183, 190, 0.5);
+      border-radius: 999px;
+      padding: 0.28rem 0.74rem;
+      font-size: 0.86rem;
+    }
+
+    .hero-carousel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid rgba(28, 31, 38, 0.14);
+      box-shadow: var(--shadow);
+      min-height: 420px;
+      background: #102f34;
+    }
+
+    .carousel-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 700ms ease;
+      pointer-events: none;
+    }
+
+    .carousel-slide.active { opacity: 1; pointer-events: auto; }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .carousel-slide::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(10, 24, 31, 0.1) 0%, rgba(10, 24, 31, 0.26) 60%, rgba(10, 24, 31, 0.4) 100%);
+    }
+
+    .carousel-caption {
+      position: absolute;
+      left: 1rem;
+      right: 1rem;
+      bottom: 0.9rem;
+      color: #f7fbfb;
+      font-size: 0.93rem;
+      z-index: 3;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+    }
+
+    .carousel-controls {
+      position: absolute;
+      inset: auto 0 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem;
+      z-index: 4;
+    }
+
+    .arrow-btn {
+      background: rgba(255, 255, 255, 0.8);
+      color: #173237;
+      border: 1px solid rgba(0, 183, 190, 0.5);
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .arrow-btn:focus-visible, .dot:focus-visible {
+      outline: 3px solid rgba(0, 183, 190, 0.45);
+      outline-offset: 2px;
+    }
+
+    .dots { display: flex; gap: 0.45rem; align-items: center; }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.38);
+      cursor: pointer;
+    }
+
+    .dot.active { background: var(--teal); border-color: var(--teal); }
+
+    section { padding: 2.5rem 0; }
+
+    .section-header {
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 1rem;
+    }
+
+    .teal-kick {
+      display: inline;
+      background: linear-gradient(180deg, transparent 58%, rgba(0, 183, 190, 0.18) 58%);
+      padding: 0 0.2rem;
+    }
+
+    .small { color: var(--muted); font-size: 0.93rem; }
+
+    .cards {
+      display: grid;
+      position: relative;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+
+    .project-card,
+    .service-card,
+    .program-card,
+    .quote,
+    .fact,
+    .rate-block,
+    .contact-wrap,
+    .about-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid rgba(0, 183, 190, 0.42);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .project-card {
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: 190px auto;
+      transition: transform 170ms ease, border-color 170ms ease, box-shadow 170ms ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 183, 190, 0.8);
+      box-shadow: 0 12px 24px rgba(20, 27, 30, 0.12);
+    }
+
+    .project-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .project-copy { padding: 0.95rem; }
+    .project-copy h3 { margin-bottom: 0.38rem; font-size: 1.1rem; }
+    .kicker {
+      color: #3b4250;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
+      display: block;
+      font-weight: 700;
+    }
+
+    .highlight-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.8rem;
+      margin-top: 0.9rem;
+    }
+
+    .fact {
+      padding: 1rem;
+      border-top: 2px solid rgba(0, 183, 190, 0.26);
+      text-align: center;
+      font-weight: 650;
+      background: #ffffff;
+    }
+
+    .columns-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+
+    .about-box, .service-card, .program-card, .quote, .rate-block, .contact-wrap {
+      padding: 1.1rem;
+    }
+
+    .services { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+
+    ul { margin: 0.5rem 0 0 1.1rem; }
+
+    .quotes { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+    .quote p { margin-bottom: 0.4rem; font-style: italic; }
+
+    .rate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    .faq details {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-left: 3px solid rgba(0, 183, 190, 0.36);
+      border-radius: 12px;
+      padding: 0.75rem 0.9rem;
+      margin-bottom: 0.55rem;
+    }
+
+    form { display: grid; gap: 0.8rem; }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid #cfd4dc;
+      border-radius: 10px;
+      padding: 0.65rem 0.75rem;
+      font: inherit;
+      background: #fff;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(0, 183, 190, 0.2);
+    }
+
+    textarea { min-height: 140px; }
+
+    .email-subtle { margin-top: 0.8rem; font-size: 0.92rem; }
+    .email-subtle a { color: var(--teal-deep); font-weight: 600; }
+
+    .section-header .small {
+      max-width: 62ch;
+    }
+
+    footer {
+      border-top: 2px solid rgba(0, 183, 190, 0.28);
+      padding: 1.5rem 0 2rem;
+      margin-top: 2rem;
+      color: #4c505a;
+      font-size: 0.93rem;
+    }
+
+    @media (max-width: 920px) {
+      .hero, .columns-2, .rate-grid { grid-template-columns: 1fr; }
+      .hero { padding-top: 2.2rem; }
+      .hero-carousel { min-height: 320px; }
+      .section-header { flex-direction: column; align-items: start; }
+    }
+  </style>
+</head>
 <body>
-  <h1>YOUR NAME</h1>
-  <p>Welcome to my website!</p>
-  <img src="https://content.codecademy.com/articles/github-pages-via-web-app/happy-ice-cream.gif" />
+  <header>
+    <div class="container nav-wrap">
+      <div class="brand">Donald Lemke</div>
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#books">Books &amp; Projects</a>
+        <a href="#speaking">Speaking</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="container hero">
+      <div>
+        <span class="accent-label">Children’s author, editor, speaker</span>
+        <h1>Kids’ writing with craft, comedy, and brand brain.</h1>
+        <p class="lead">Donald Lemke writes and develops children’s books across formats—from board books and picture books to collectible kits in licensed worlds.</p>
+        <div class="button-row">
+          <a class="btn btn-primary" href="/contact">Partner inquiries</a>
+          <a class="btn btn-dark" href="#books">Books &amp; projects</a>
+          <a class="btn btn-outline" href="#speaking">Speaking &amp; visits</a>
+        </div>
+        <div class="proof">
+          <span>100+ books for young readers</span>
+          <span>Board books, picture books, kits, licensed products</span>
+          <span>Based in St. Paul, Minnesota</span>
+        </div>
+      </div>
+
+      <div class="hero-carousel" aria-label="Featured project images carousel" role="region">
+        <div class="carousel-slide active" data-label="Author vs. Illustrator cover">
+          <img src="https://images.squarespace-cdn.com/content/v1/6766e048b2ea53316b51613e/5548d552-e757-41cd-a10b-09643dcf58ea/bob_lentz_brand_author_vs_illustrator_hero.jpg" alt="Cover of Author vs. Illustrator" />
+          <div class="carousel-caption">Author vs. Illustrator — cover</div>
+        </div>
+        <div class="carousel-slide" data-label="Author vs. Illustrator spread 1">
+          <img src="https://images.squarespace-cdn.com/content/v1/6766e048b2ea53316b51613e/2c370112-6f2a-4005-b2bc-4acabbc3193c/bob_lentz_brand_author_vs_illustrator_spread_1.jpg" alt="Interior spread from Author vs. Illustrator" />
+          <div class="carousel-caption">Author vs. Illustrator — interior spread</div>
+        </div>
+        <div class="carousel-slide" data-label="Wearable Books composite covers">
+          <img src="https://images.squarespace-cdn.com/content/v1/6766e048b2ea53316b51613e/b945972d-022a-49f8-a019-47a5a7a33a1f/bob_lentz_brand_wearable_books_series.jpg" alt="Composite image of the Wearable Books series covers" />
+          <div class="carousel-caption">Wearable Books — composite covers</div>
+        </div>
+        <div class="carousel-slide" data-label="Wearable Books spreads grid">
+          <img src="https://images.squarespace-cdn.com/content/v1/6766e048b2ea53316b51613e/dc1c6611-5ca2-4349-bd59-5a0f02d07f67/bob_lentz_brand_wearable_books_spreads.jpg" alt="Grid of interior spreads from Wearable Books" />
+          <div class="carousel-caption">Wearable Books — spreads grid</div>
+        </div>
+        <div class="carousel-slide" data-label="Basic Training Call of Doodie hero">
+          <img src="https://images.squarespace-cdn.com/content/v1/6766e048b2ea53316b51613e/0d682649-1b5e-47b4-9b0c-3f3071604315/bob_lentz_brand_basic_training_hero.jpg" alt="Basic Training Call of Doodie hero image" />
+          <div class="carousel-caption">Basic Training: Call of Doodie — hero art</div>
+        </div>
+
+        <div class="carousel-controls">
+          <button class="arrow-btn" id="prevSlide" type="button" aria-label="Previous slide">‹</button>
+          <div class="dots" id="carouselDots" aria-label="Slide selector"></div>
+          <button class="arrow-btn" id="nextSlide" type="button" aria-label="Next slide">›</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="container" id="books">
+      <div class="section-header">
+        <div>
+          <span class="accent-label">Top hits</span>
+          <h2><span class="teal-kick">Books &amp; Projects</span></h2>
+          <p class="small">A curated selection of fan favorites, frontlist projects, and licensed products. Playful tone, grown-up execution.</p>
+        </div>
+      </div>
+
+      <div class="cards">
+        <article class="project-card">
+          <img src="https://images.squarespace-cdn.com/content/v1/6766e048b2ea53316b51613e/5548d552-e757-41cd-a10b-09643dcf58ea/bob_lentz_brand_author_vs_illustrator_hero.jpg" alt="Author vs. Illustrator cover image" />
+          <div class="project-copy">
+            <span class="kicker">Picture books · Capstone · 2024</span>
+            <h3>Author vs. Illustrator</h3>
+            <p>A laugh-out-loud picture book about the glorious chaos of making a picture book.</p>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <img src="https://images.squarespace-cdn.com/content/v1/6766e048b2ea53316b51613e/b945972d-022a-49f8-a019-47a5a7a33a1f/bob_lentz_brand_wearable_books_series.jpg" alt="Wearable Books series composite" />
+          <div class="project-copy">
+            <span class="kicker">Board books · Capstone</span>
+            <h3>Wearable Books Series</h3>
+            <p>Interactive die-cut board books kids can actually wear—made for imagination, photos, and repeat reads.</p>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <img src="https://images.squarespace-cdn.com/content/v1/6766e048b2ea53316b51613e/0d682649-1b5e-47b4-9b0c-3f3071604315/bob_lentz_brand_basic_training_hero.jpg" alt="Basic Training Call of Doodie artwork" />
+          <div class="project-copy">
+            <span class="kicker">Board books · Capstone · Ages 2–4</span>
+            <h3>Basic Training: Call of Doodie</h3>
+            <p>Potty training reframed as an action-packed mission with playful rank-ups and humor.</p>
+          </div>
+        </article>
+
+        <article class="project-card" id="licensed">
+          <img src="https://www.hachettebookgroup.com/wp-content/uploads/2023/09/9780762482412.jpg" alt="Harry Potter Time Turner kit product shot" />
+          <div class="project-copy">
+            <span class="kicker">Licensed kits · RP Minis · 2023</span>
+            <h3>Harry Potter Time-Turner Kit</h3>
+            <p>A premium all-metal replica with rotating rings, hourglass detail, and mini companion book.</p>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <img src="https://www.hachettebookgroup.com/wp-content/uploads/2023/09/9780762474738-1.jpg" alt="Harry Potter Hogwarts trunk collectible set" />
+          <div class="project-copy">
+            <span class="kicker">Licensed kits · Running Press</span>
+            <h3>Hogwarts Trunk Collectible Set</h3>
+            <p>Officially licensed keepsake trunk with wand pen, journal, pin, and magical ephemera.</p>
+          </div>
+        </article>
+
+        <article class="project-card" id="rpminis">
+          <img src="https://www.hachettebookgroup.com/wp-content/uploads/2026/02/9798894143330_db7b7d.jpg" alt="Mini Player Piano product image" />
+          <div class="project-copy">
+            <span class="kicker">RP Minis &amp; mini games · Upcoming</span>
+            <h3>Recent &amp; Upcoming Work</h3>
+            <p>Includes Mini Mic Drop, Harry Potter Mini Howler, Itty-Bitty Bingo, Mini Player Piano, and more.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="highlight-strip">
+        <div class="fact">100+ published titles</div>
+        <div class="fact">Interactive board books + novelty formats</div>
+        <div class="fact">Official licensed collectible kits</div>
+      </div>
+    </section>
+
+    <section class="container" id="about">
+      <div class="section-header">
+        <div>
+          <span class="accent-label">About Donald</span>
+          <h2><span class="teal-kick">Professional bio, minus the fluff</span></h2>
+        </div>
+      </div>
+      <div class="columns-2">
+        <article class="about-box">
+          <h3>Short bio</h3>
+          <p>Donald Lemke is a children’s book editor and writer who’s penned 100+ titles for young readers—from board books to middle grade—often in the worlds of iconic, kid-beloved brands.</p>
+        </article>
+        <article class="about-box">
+          <h3>Long bio</h3>
+          <p>Donald Lemke is a children’s book editor and writer with 100+ published titles spanning board books, picture books, and middle grade. His work blends kid-forward humor with strong concepts and tight execution—whether he’s inventing interactive formats, building a playful mission around everyday kid milestones, or translating big-brand worlds into collectible products readers want to keep. He lives in St. Paul, Minnesota.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="container" id="speaking">
+      <div class="section-header">
+        <div>
+          <span class="accent-label">Speaking</span>
+          <h2><span class="teal-kick">School visits, conference sessions, and partner events</span></h2>
+          <p class="small">Practical, engaging talks for schools, libraries, and publishing audiences. Sharp ideas, zero fluff.</p>
+        </div>
+      </div>
+      <div class="cards">
+        <article class="program-card">
+          <h3>From Idea to Shelf</h3>
+          <p>How concepts become books kids actually want to read.</p>
+        </article>
+        <article class="program-card">
+          <h3>Writing Funny (On Purpose)</h3>
+          <p>Tools for humor that lands—without getting precious.</p>
+        </article>
+        <article class="program-card">
+          <h3>Writing in Big Worlds</h3>
+          <p>What licensed storytelling demands and how to deliver it well.</p>
+        </article>
+      </div>
+      <div class="rate-grid" style="margin-top: 1rem;">
+        <article class="rate-block">
+          <h3>Typical virtual ranges</h3>
+          <ul>
+            <li>Single virtual session (40–60 min): $300–$750</li>
+            <li>Virtual workshop (60 min): $600–$1,200</li>
+          </ul>
+        </article>
+        <article class="rate-block">
+          <h3>Typical in-person ranges</h3>
+          <ul>
+            <li>Half day (2 sessions): $1,200–$2,500</li>
+            <li>Full day (up to 4 sessions): $1,800–$3,500</li>
+          </ul>
+        </article>
+      </div>
+      <p class="small" style="margin-top: 0.6rem;">Travel/lodging additional if applicable. Discounts available for multi-day or district-wide bookings.</p>
+      <div class="faq" style="margin-top: 1rem;">
+        <details>
+          <summary>Who are these visits for?</summary>
+          <p>Schools, libraries, conferences, and partner events.</p>
+        </details>
+        <details>
+          <summary>What do you need on the tech side?</summary>
+          <p>A projector/screen for in-person; Zoom or Google Meet for virtual.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="container" id="services">
+      <div class="section-header">
+        <div>
+          <span class="accent-label">Services</span>
+          <h2><span class="teal-kick">Creative support for publishers, partners, and educators</span></h2>
+          <p class="small">For publishers/partners and for schools/libraries—tailored to the room.</p>
+        </div>
+      </div>
+      <div class="services">
+        <article class="service-card">
+          <h3>Children’s Writing</h3>
+          <ul>
+            <li>Picture books, board books, and novelty formats</li>
+            <li>Kid-right voice with human humor</li>
+            <li>Original concepts or licensed worlds</li>
+            <li>School/library-ready storytelling sessions tied to craft</li>
+          </ul>
+        </article>
+        <article class="service-card">
+          <h3>Licensed &amp; Media Tie-In Development</h3>
+          <ul>
+            <li>Brand tone matching + approvals fluency</li>
+            <li>Concept-to-deliverable execution</li>
+            <li>Format strategy and product thinking</li>
+            <li>Conference talks on writing within large shared IP worlds</li>
+          </ul>
+        </article>
+        <article class="service-card">
+          <h3>Editorial / Consulting</h3>
+          <ul>
+            <li>Product line and format ideation</li>
+            <li>Story and concept development</li>
+            <li>Creative feedback and polish</li>
+            <li>Workshops for classrooms/libraries on concept clarity and humor craft</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="container" id="contact">
+      <div class="section-header">
+        <div>
+          <span class="accent-label">Contact</span>
+          <h2><span class="teal-kick">Partner inquiries, speaking, and services</span></h2>
+          <p class="small">The form is the best way to start. Short messages are great—specific ones are better. (Bonus points for deadlines.)</p>
+        </div>
+      </div>
+      <article class="contact-wrap">
+        <form action="mailto:donaldblemke@gmail.com" method="post" enctype="text/plain">
+          <label>Name
+            <input type="text" name="name" required />
+          </label>
+          <label>Email
+            <input type="email" name="email" required />
+          </label>
+          <label>Inquiry type
+            <select name="inquiry_type" required>
+              <option>Partner/Agent</option>
+              <option>Speaking</option>
+              <option>Services</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label>Message
+            <textarea name="message" required></textarea>
+          </label>
+          <button class="btn btn-primary" type="submit">Partner inquiries</button>
+        </form>
+        <p class="email-subtle">Prefer email? <a class="link" href="mailto:donaldblemke@gmail.com">donaldblemke@gmail.com</a></p>
+      </article>
+    </section>
+
+    <section class="container">
+      <div class="quotes">
+        <article class="quote">
+          <p>“Kids will laugh at the banter between author and illustrator… teamwork will be impossible to miss.”</p>
+          <div class="small">—School Library Journal (as quoted on collaborator portfolio)</div>
+        </article>
+        <article class="quote">
+          <p>“giggle-fueling fun!”</p>
+          <div class="small">—Booklist (as quoted on collaborator portfolio)</div>
+        </article>
+        <article class="quote">
+          <p>“beard-acious and fan-stache-tic.”</p>
+          <div class="small">—Bridget Heos (as quoted on collaborator portfolio)</div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      Donald Lemke is a children’s book editor and writer with 100+ titles for young readers. Based in St. Paul, Minnesota.
+      <span class="small"> Prefer email? <a class="link" href="mailto:donaldblemke@gmail.com">donaldblemke@gmail.com</a></span>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const slides = Array.from(document.querySelectorAll('.carousel-slide'));
+      const dotsContainer = document.getElementById('carouselDots');
+      const prev = document.getElementById('prevSlide');
+      const next = document.getElementById('nextSlide');
+      let index = 0;
+      let timer;
+
+      function renderDots() {
+        slides.forEach((slide, i) => {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'dot' + (i === 0 ? ' active' : '');
+          dot.setAttribute('aria-label', 'Go to slide ' + (i + 1) + ': ' + slide.dataset.label);
+          dot.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+          dot.addEventListener('click', () => {
+            setSlide(i);
+            restartAuto();
+          });
+          dotsContainer.appendChild(dot);
+        });
+      }
+
+      function setSlide(nextIndex) {
+        slides[index].classList.remove('active');
+        dotsContainer.children[index].classList.remove('active');
+        dotsContainer.children[index].setAttribute('aria-pressed', 'false');
+        index = (nextIndex + slides.length) % slides.length;
+        slides[index].classList.add('active');
+        dotsContainer.children[index].classList.add('active');
+        dotsContainer.children[index].setAttribute('aria-pressed', 'true');
+      }
+
+      function restartAuto() {
+        clearInterval(timer);
+        timer = setInterval(() => setSlide(index + 1), 5000);
+      }
+
+      prev.addEventListener('click', () => {
+        setSlide(index - 1);
+        restartAuto();
+      });
+
+      next.addEventListener('click', () => {
+        setSlide(index + 1);
+        restartAuto();
+      });
+
+      const carousel = document.querySelector('.hero-carousel');
+      carousel.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft') {
+          setSlide(index - 1);
+          restartAuto();
+        }
+        if (event.key === 'ArrowRight') {
+          setSlide(index + 1);
+          restartAuto();
+        }
+      });
+
+      renderDots();
+      restartAuto();
+    })();
+  </script>
 </body>
- 
 </html>
